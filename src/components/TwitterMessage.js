@@ -1,45 +1,29 @@
-import React from 'react';
+import React, { useState } from "react";
 
-class TwitterMessage extends React.Component {
-  constructor(props) {
-    super(props);
+const TwitterMessage = (props) => {
+    const [message, setMessage] = useState('')
+    const [charRemaining, setCharRemaining] = useState(props.maxChars)
 
-    this.state = {
-      message: '',
-      color: '#000'
+    const handleMessageChange = (event) => {
+      setMessage(event.target.value)
+      setCharRemaining(charRemaining - 1)
     }
-  }
 
-  handleChange = (event, charCount) => {
-    this.setState({
-      message: event.target.value
-    })
-
-    if (charCount < 0) {
-    this.changeColor()
-    }
-    return charCount;
-  }
-
-  changeColor() {
-    this.setState({
-      color: '#ff0000'
-    })
-  }
-
-
-  render() {
-    let charCount = this.props.maxChars - this.state.message.length
     return (
       <div>
         <strong>Your message:</strong>
-        <input type="text" name="message" id="message" 
-          onChange={(e) => {this.handleChange(e, charCount)}} 
-          value ={this.state.message} />
-          <p id="charCount" style={{color: this.state.color}}>Characters remaining: {charCount}</p>
+        <input 
+          onChange={event => handleMessageChange(event)}
+          type="text"
+          name="message"
+          id="message" 
+          value={message}
+        />
+        <p style={{color: 'red'}}>Characters Remaining: 
+        <span style={{fontWeight: 900}}> {charRemaining}</span></p>
+
       </div>
     )
-    }
   }
 
 export default TwitterMessage;

@@ -1,49 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 
-class LoginForm extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      username: '',
-      password: ''
-    };
-  }
+const LoginForm = () => {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
   
-  handleChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+  const handleChange = event => {
+    console.log(event.target.name)
+    if (event.target.name === 'username') {
+      setUsername(event.target.value)
+    }
+    else if (event.target.name === 'password') {
+      setPassword(event.target.value)
+    }
   }
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault()
-
-    if (!this.state.username || !this.state.password) return
-
-    this.props.handleLogin(this.state)
+    const displayElement = document.getElementById('display-username')
+    displayElement.innerHTML = username
   }
 
-  render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+     <React.Fragment>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>
             Username
-            <input id="username" name="username" type="text" onChange={this.handleChange} value={this.state.username} />
+            <input id="username" name="username" type="text" onChange={handleChange} value={username} />
           </label>
         </div>
         <div>
           <label>
             Password
-            <input id="password" name="password" type="password" onChange={this.handleChange} value={this.state.password} />
+            <input id="password" name="password" type="password" onChange={handleChange} value={password} />
           </label>
         </div>
         <div>
           <button type="submit">Log in</button>
         </div>
       </form>
+      <p id="display-username"></p>
+      </React.Fragment>
     );
-  }
 }
 
 export default LoginForm;
